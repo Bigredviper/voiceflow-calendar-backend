@@ -6,6 +6,14 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
+const fs = require("fs");
+
+if (process.env.GOOGLE_SERVICE_KEY_BASE64) {
+  const key = Buffer.from(process.env.GOOGLE_SERVICE_KEY_BASE64, "base64");
+  fs.writeFileSync("service-account.json", key);
+}
+
+
 const auth = new google.auth.GoogleAuth({
   keyFile: './service-account.json',
   scopes: ['https://www.googleapis.com/auth/calendar'],
